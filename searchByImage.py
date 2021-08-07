@@ -80,7 +80,7 @@ def is_image_valid(imageURL, exclude_stock_photos=False):
     Args:
         imageURL (str): A string from image src
         exclude_stock_photos (bool, optional): 
-        A Boolen variabel indicating whether to exclude stock photos which might contain watermark.
+        A Boolen variable indicating whether to exclude stock photos which might contain watermark.
         Defaults to False.
 
     Returns:
@@ -208,7 +208,7 @@ def get_images(wd, number_of_images=20, exclude_stock_photos=False, out=None):
     return sources
 
 
-def download_images(image_urls, use_UUID=False):
+def download_images(image_urls):
     """
     Download all images from a list of image_urls
 
@@ -224,7 +224,7 @@ def download_images(image_urls, use_UUID=False):
     downloaded_count = 0
 
     for image_url in image_urls:
-        filename = [image_url.split("/")[-1], uuid.uuid1()][use_UUID]
+        filename = uuid.uuid1()
 
         # Open the url image, set stream to True, this will return the stream content.
         r = requests.get(image_url, stream=True, allow_redirects=True)
@@ -238,11 +238,7 @@ def download_images(image_urls, use_UUID=False):
 
             data_folder = Path("downloads/")
             savepath = data_folder / f'{str(filename)}{extension or ".jpg"}'
-            print(savepath)
 
-            # savepath = os.path.join(
-            #     "downloads", f'{str(filename)}{extension or ".jpg"}')
-            
             # Open a local file with wb ( write binary ) permission.
             with open(savepath, 'wb') as f:
                 shutil.copyfileobj(r.raw, f)
@@ -300,8 +296,7 @@ def main():
                         help='file to write URLs into')
     parser.add_argument('--exclude_stock', type=str, default=False,
                         help='Boolean to indicate whether to exclude stock photos. Default: False')
-    parser.add_argument('--use_uuid', default=False, action="store_true",
-                        help="Flag to do something")
+
     args = parser.parse_args()
 
     if(isURLValid(args.image_url) is not True):
@@ -315,7 +310,7 @@ def main():
             driver=wd, image_url=args.image_url, number_of_images=args.n, exclude_stock_photos=args.exclude_stock, out=args.output)
 
     if (len(sources)):
-        download_images(sources, use_UUID=args.use_uuid)
+        download_images(sources)
     else:
         logger.info("No images to download")
 
