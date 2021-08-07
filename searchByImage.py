@@ -25,10 +25,6 @@ searchByImageIconCss = "div.ZaFQO"
 searchInputCss = "input#Ycyxxc"
 similarImgButtonCss = "h3.GmE3X"
 
-toolButtonCss = ".PNyWAd.ZXJQ7c"
-usageRightsCss = ".D0HoIc.itb-h > div:nth-child(5) .xFo9P.r9PaP"
-searchByCommonLicenseCss = ".MfLWbb:nth-child(2)"
-
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 logger = logging.getLogger()
 retry_logger = None
@@ -287,7 +283,7 @@ def search_by_image(driver, image_url, number_of_images=10, exclude_stock_photos
 def main():
 
     parser = argparse.ArgumentParser(
-        description='Fetch image URLs from Google Image Search.')
+        description='Fetch image URLs and download images from Google Image Search.')
 
     parser.add_argument('image_url', type=str, help='image search URL')
     parser.add_argument('n', type=int, default=20,
